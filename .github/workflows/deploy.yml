@@ -1,0 +1,72 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+    
+    - name: Install dependencies
+      run: |
+        source $HOME/.cargo/env
+        uv sync
+    
+    - name: Run tests
+      run: |
+        source $HOME/.cargo/env
+        uv run pytest -v
+      env:
+        DATABASE_URL: sqlite+aiosqlite:///:memory:
+        SECRET_KEY: test-secret-key
+        ALGORITHM: HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install Serverless Framework
+      run: npm install -g serverless
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: Deploy to AWS Lambda
+      run: serverless deploy --stage prod
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        ALGORITHM: HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
+        CORS_ORIGINS: ${{ secrets.CORS_ORIGINS }}

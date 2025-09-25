@@ -1,0 +1,35 @@
+service: shiptrack-logistics-saas
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    SECRET_KEY: ${env:SECRET_KEY}
+    ALGORITHM: ${env:ALGORITHM}
+    ACCESS_TOKEN_EXPIRE_MINUTES: ${env:ACCESS_TOKEN_EXPIRE_MINUTES}
+    CORS_ORIGINS: ${env:CORS_ORIGINS}
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+      - http:
+          path: /
+          method: ANY
+          cors: true
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    slim: true
+    strip: false

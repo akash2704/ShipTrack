@@ -1,0 +1,8 @@
+{
+  "name": "shiptrack-logistics-saas",
+  "version": "1.0.0",
+  "description": "ShipTrack Logistics SaaS Platform",
+  "devDependencies": {
+    "serverless-python-requirements": "^6.0.0"
+  }
+}
