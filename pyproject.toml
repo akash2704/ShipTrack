@@ -20,5 +20,17 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "pytest==7.4.3",
     "pytest-asyncio==0.21.1",
-    "httpx==0.25.2"
+    "httpx==0.25.2",
+    # Fixed bcrypt version for Lambda compatibility
+    "bcrypt==4.1.2",
+    # Additional dependencies
+    "cffi==1.16.0",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

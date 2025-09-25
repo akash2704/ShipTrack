@@ -2,7 +2,16 @@
   "name": "shiptrack-logistics-saas",
   "version": "1.0.0",
   "description": "ShipTrack Logistics SaaS Platform",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "deploy-dev": "serverless deploy --stage dev",
+    "deploy-prod": "serverless deploy --stage prod",
+    "remove": "serverless remove"
+  },
+  "dependencies": {},
   "devDependencies": {
+    "serverless": "^3.38.0",
     "serverless-python-requirements": "^6.0.0"
   }
 }
