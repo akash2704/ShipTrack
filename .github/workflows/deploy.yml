@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'
+        python-version: '3.11'
     
     # Option 1: Use pip directly with requirements.txt
     - name: Install dependencies with pip
@@ -73,7 +73,7 @@ jobs:
     - name: Set up Python for deployment
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'
+        python-version: '3.11'
     
     - name: Deploy to AWS Lambda
       run: serverless deploy --stage prod --verbose
