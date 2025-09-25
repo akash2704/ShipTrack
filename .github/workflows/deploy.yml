@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         source $HOME/.cargo/env
-        uv sync
+        uv sync --locked
     
     - name: Run tests
       run: |
