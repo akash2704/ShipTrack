@@ -1,4 +1,5 @@
 service: shiptrack-logistics-saas
+frameworkVersion: '3'
 
 provider:
   name: aws
