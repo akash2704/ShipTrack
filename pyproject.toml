@@ -2,6 +2,7 @@
 name = "shiptrack-logistics-saas"
 version = "1.0.0"
 description = "ShipTrack Logistics SaaS Platform"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi==0.104.1",
     "uvicorn==0.24.0",
@@ -16,10 +17,6 @@ dependencies = [
     "websockets==12.0",
     "mangum==0.17.0",
     "psycopg2-binary>=2.9.10",
-]
-
-[project.optional-dependencies]
-dev = [
     "pytest==7.4.3",
     "pytest-asyncio==0.21.1",
     "httpx==0.25.2"
