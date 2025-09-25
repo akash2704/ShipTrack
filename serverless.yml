@@ -36,7 +36,7 @@ custom:
     dockerizePip: true
     slim: true
     strip: false
-    pythonBin: python3.12  # Ensure consistent Python version
+    pythonBin: python3.11  # Ensure consistent Python version
     pipCmdExtraArgs:
       - --no-cache-dir
     layer: false  # Include dependencies in the main package
