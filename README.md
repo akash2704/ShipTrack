@@ -4,7 +4,7 @@ A complete serverless logistics management platform with CI/CD pipeline.
 
 ## Features
 
-- 🔐 JWT Authentication & Authorization
+- 🔐 JWT Authentication & Authorization.
 - 📦 Inventory Management
 - 🚚 Shipment Tracking
 - 📍 Real-time Location Updates
