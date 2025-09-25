@@ -3,11 +3,11 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: python3.12  # Changed from python3.11 to match your local environment
+  runtime: python3.11  # ✅ Supported runtime
   region: ap-south-1
   stage: ${opt:stage, 'dev'}
-  timeout: 30  # Increased timeout for database connections
-  memorySize: 512  # Increased memory for better performance
+  timeout: 29  # ✅ API Gateway limit
+  memorySize: 512
   environment:
     DATABASE_URL: ${env:DATABASE_URL}
     SECRET_KEY: ${env:SECRET_KEY}
@@ -18,7 +18,7 @@ provider:
 functions:
   api:
     handler: handler.handler
-    timeout: 30
+    timeout: 29
     memorySize: 512
     events:
       - httpApi:
@@ -33,10 +33,6 @@ plugins:
 
 custom:
   pythonRequirements:
-    dockerizePip: true
+    dockerizePip: false  # ✅ don’t use Docker in GitHub Actions
     slim: true
     strip: false
-    pythonBin: python3.11  # Ensure consistent Python version
-    pipCmdExtraArgs:
-      - --no-cache-dir
-    layer: false  # Include dependencies in the main package
