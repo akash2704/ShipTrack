@@ -16,20 +16,28 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'  # Keep consistent with local and Lambda
+        python-version: '3.12'
     
-    - name: Install uv
-      run: curl -LsSf https://astral.sh/uv/install.sh | sh
-    
-    - name: Install dependencies
+    # Option 1: Use pip directly with requirements.txt
+    - name: Install dependencies with pip
       run: |
-        source $HOME/.cargo/env
-        uv sync
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    # Option 2: Alternative with uv (comment out Option 1 if using this)
+    # - name: Install uv
+    #   run: curl -LsSf https://astral.sh/uv/install.sh | sh
+    
+    # - name: Install dependencies with uv
+    #   run: |
+    #     source $HOME/.cargo/env
+    #     uv venv
+    #     uv pip install -r requirements.txt
     
     - name: Run tests
       run: |
-        source $HOME/.cargo/env
-        uv run pytest -v
+        python -m pytest -v
+        # If using uv, use: source .venv/bin/activate && pytest -v
       env:
         DATABASE_URL: "sqlite+aiosqlite:///:memory:"
         SECRET_KEY: test-secret-key
@@ -62,7 +70,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
     
-    # Add Python for serverless-python-requirements plugin
     - name: Set up Python for deployment
       uses: actions/setup-python@v4
       with:
